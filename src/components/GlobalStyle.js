@@ -16,7 +16,6 @@ html {
 
 body {
   margin: 0;
-  padding: 20px;
   font-family: 'Roboto', sans-serif;
   font-size: 24px;
    color: #212121;
