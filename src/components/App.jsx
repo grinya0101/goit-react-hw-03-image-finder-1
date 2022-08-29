@@ -15,7 +15,7 @@ export class App extends Component {
   initialValues = {
     searchQuery: '',
     page: 1,
-    per_page: 20,
+    per_page: 12,
     imagesData: [],
     total: null,
     totalHits: null,
@@ -65,7 +65,7 @@ export class App extends Component {
 
   softScroll = () => {
     window.scrollBy({
-      top: 780,
+      top: 828,
       behavior: 'smooth',
     });
   };
