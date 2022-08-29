@@ -36,7 +36,6 @@ class ImageGalleryItem extends Component {
         />
         {isSelected && (
           <Modal onClose={this.isSelectedToggle}>
-            alert(item.largeImageURL);
             <img src={item.largeImageURL} alt={item.tags} />
           </Modal>
         )}
