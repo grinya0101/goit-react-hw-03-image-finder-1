@@ -15,7 +15,7 @@ export class App extends Component {
   initialValues = {
     searchQuery: '',
     page: 1,
-    per_page: 18,
+    per_page: 20,
     imagesData: [],
     total: null,
     totalHits: null,
@@ -52,21 +52,23 @@ export class App extends Component {
           ) {
             toast.info(` You've reached the end of search results`);
           }
+          if (this.state.page !== 1) {
+            setTimeout(this.softScroll, 200);
+          }
         })
         .catch(err => toast.error(err))
         .finally(() => {
           this.setState({ isLoading: false });
-          this.softScroll();
         });
     }
   }
 
-  softScroll() {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
+  softScroll = () => {
+    window.scrollBy({
+      top: 780,
       behavior: 'smooth',
     });
-  }
+  };
 
   onFormSubmit = ({ searchQuery }) => {
     if (searchQuery.trim() === '') {
