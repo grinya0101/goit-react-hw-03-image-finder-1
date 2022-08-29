@@ -73,6 +73,9 @@ export class App extends Component {
       toast.warning('Enter search query');
       return;
     }
+    if (searchQuery === this.state.searchQuery && this.state.page === 1) {
+      return;
+    }
     this.setState({
       ...this.initialValues,
       searchQuery,
