@@ -1,47 +1,27 @@
-import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import ImageGalleryItem from './ImageGalleryItem';
-import Modal from '../Modal';
 
 import { Gallery } from './ImageGallery.styled.js';
 
-class ImageGallery extends Component {
-  state = {
-    selectedImage: {},
-  };
+const ImageGallery = ({ imagesData }) => {
+  return (
+    <Gallery id="gallery">
+      {!!imagesData?.length &&
+        imagesData.map(item => <ImageGalleryItem key={item.id} item={item} />)}
+    </Gallery>
+  );
+};
 
-  onItemClick = selectedImage => {
-    this.setState({ selectedImage });
-  };
-
-  onModalClose = () => {
-    this.setState({ selectedImage: {} });
-  };
-
-  render() {
-    const { selectedImage } = this.state;
-    const { imagesData } = this.props;
-    return (
-      <>
-        <Gallery>
-          {!!imagesData?.length &&
-            imagesData.map(item => (
-              <ImageGalleryItem
-                key={item.id}
-                item={item}
-                onItemClick={this.onItemClick}
-              />
-            ))}
-        </Gallery>
-
-        {selectedImage?.largeImageURL && (
-          <Modal onClose={this.onModalClose}>
-            <img src={selectedImage.largeImageURL} alt={selectedImage.tags} />
-          </Modal>
-        )}
-      </>
-    );
-  }
-}
+ImageGallery.propTypes = {
+  imagesData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      tags: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+}.isRequired;
 
 export default ImageGallery;

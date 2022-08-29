@@ -1,4 +1,5 @@
-import { Component } from 'react';
+import { PropTypes } from 'prop-types';
+
 import { BsSearch } from 'react-icons/bs';
 import { Formik } from 'formik';
 
@@ -10,37 +11,36 @@ import {
   Button,
 } from './Searchbar.styled';
 
-class Searchbar extends Component {
-  onSubmitHandle = value => {
-    this.props.onFormSubmit(value);
+const Searchbar = ({ onFormSubmit }) => {
+  const onSubmitHandle = value => {
+    onFormSubmit(value);
   };
 
-  render() {
-    return (
-      <StyledSearchbar>
-        <Formik
-          initialValues={{ searchQuery: '' }}
-          onSubmit={this.onSubmitHandle}
-        >
-          <StyledForm autoComplete="off">
-            <Label htmlFor="searchQuery" />
+  return (
+    <StyledSearchbar>
+      <Formik initialValues={{ searchQuery: '' }} onSubmit={onSubmitHandle}>
+        <StyledForm autoComplete="off">
+          <Button type="submit">
+            <BsSearch aria-label="Search" />
+          </Button>
 
-            <Input
-              id="searchQuery"
-              type="text"
-              name="searchQuery"
-              placeholder="Search images and photos"
-              autoFocus
-            />
+          <Label htmlFor="searchQuery" />
 
-            <Button type="submit">
-              <BsSearch aria-label="Search" />
-            </Button>
-          </StyledForm>
-        </Formik>
-      </StyledSearchbar>
-    );
-  }
-}
+          <Input
+            id="searchQuery"
+            type="text"
+            name="searchQuery"
+            placeholder="Search images and photos"
+            autoFocus
+          />
+        </StyledForm>
+      </Formik>
+    </StyledSearchbar>
+  );
+};
+
+Searchbar.propTypes = {
+  onFormSubmit: PropTypes.func.isRequired,
+}.isRequired;
 
 export default Searchbar;

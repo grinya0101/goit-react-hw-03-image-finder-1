@@ -11,18 +11,18 @@ import { GlobalStyle } from './GlobalStyle';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const initialValues = {
-  searchQuery: '',
-  page: 1,
-  per_page: 40,
-  imagesData: [],
-  total: null,
-  totalHits: null,
-  isLoading: false,
-};
-
 export class App extends Component {
-  state = initialValues;
+  initialValues = {
+    searchQuery: '',
+    page: 1,
+    per_page: 18,
+    imagesData: [],
+    total: null,
+    totalHits: null,
+    isLoading: false,
+  };
+
+  state = this.initialValues;
 
   componentDidUpdate(prevProps, prevState) {
     if (
@@ -54,8 +54,18 @@ export class App extends Component {
           }
         })
         .catch(err => toast.error(err))
-        .finally(() => this.setState({ isLoading: false }));
+        .finally(() => {
+          this.setState({ isLoading: false });
+          this.softScroll();
+        });
     }
+  }
+
+  softScroll() {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
 
   onFormSubmit = ({ searchQuery }) => {
@@ -64,7 +74,7 @@ export class App extends Component {
       return;
     }
     this.setState({
-      ...initialValues,
+      ...this.initialValues,
       searchQuery,
     });
   };
@@ -77,6 +87,8 @@ export class App extends Component {
 
   render() {
     const { imagesData, totalHits, per_page, page, isLoading } = this.state;
+    const loadMoreBtnStatus =
+      !!imagesData?.length && per_page * page < totalHits; // перевірка, чи є на сервері ще не завантажені зображення
 
     return (
       <Box
@@ -91,8 +103,7 @@ export class App extends Component {
         {isLoading ? (
           <Loader />
         ) : (
-          !!imagesData?.length &&
-          per_page * page < totalHits && (
+          loadMoreBtnStatus && (
             <Button type="button" onClick={this.onLoadMoreHandler}>
               Load more
             </Button>
